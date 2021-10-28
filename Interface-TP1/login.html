@@ -16,10 +16,9 @@
 		}
 		
 		.form-login{
-			margin: 9% auto ;
-			width: 400px;
-			height: 400px;
+			margin-top: 30vh;
 			background-color: #F3EFF5;
+			width: min-content;
 			border-radius: 25px;
 			box-shadow: 1px 1px 4px 1px #1C1C1C;
 			padding: 10px;
@@ -45,7 +44,6 @@
 			height: 40px;
 			font-size: 18px;
 			background-color: #F9DC5C;
-			/*color: #F3EFF5;*/
 			border: 2px solid #1C1C1C;
 			border-radius: 10px;
 			margin: 10px;
@@ -53,31 +51,19 @@
 	</style>
 </head>
 <body>
-	<!--<nav class="navbar navbar-dark bg-dark">
-  		<div class="container-fluid">
-	    <a class="navbar-brand" href="#">Pablo Henrique</a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-	      <div class="navbar-nav">
-	        <a class="nav-iten active" aria-current="page" href="#">Home</a>
-	        <a class="nav-link" href="#">Features</a>
-	        <a class="nav-link" href="#">Pricing</a>
-	        <a class="nav-link disabled">Disabled</a>
-	      </div>
-	    </div>
-	  </div>
-	</nav>-->
-
+	<div class="container">
 	<form class="form-login container" method="post" action="/cadastra-usuario">
 		<h3 class="titulo-login">Login Pizzaria</h3>
-		<input type="text" class="input-login" placeholder="Nome de usuário"><br>
-		<input type="password" class="input-login" placeholder="Senha de usuário">
-		<button class="button-login">Logar</button>
-		<button class="button-login">Cadastrar</button>
+		<div class="container">
+			<input type="text" class="input-login" placeholder="Nome de usuário"><br>
+			<input type="password" class="input-login" placeholder="Senha de usuário">
+		</div>
+		<div class="area-botoes container">
+			<button class="button-login">Logar</button>
+			<button class="button-login">Cadastrar</button>
+		</div>
 	</form>
-
+	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>
 </html>
