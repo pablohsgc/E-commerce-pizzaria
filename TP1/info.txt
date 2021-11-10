@@ -1,0 +1,8 @@
+npm install --save express
+npm install --save express-handlebars
+npm install --save body-parser
+npm install -g nodemon // rodar com npx nodemon app.js
+npm install --save express-session //para pegar mensagens de sessao
+npm install --save connect-flash
+para mongodb
+npm install --save mongoose

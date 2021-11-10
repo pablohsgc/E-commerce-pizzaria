@@ -1,0 +1,31 @@
+<div class="container">
+	<form class="form-login container" method="post" action="cadastro.html">
+		<h3 class="titulo-login">Cadastro Pizzaria</h3>
+        <hr>
+		<div class="container">
+            <h5>Dados Pessoais:</h5>
+            <input type="text" class="input-login" id="fname" name="fname" placeholder="Pirmeiro nome"><br>
+            <input type="text" class="input-login" id="lname" name="lname" placeholder="Ultimo nome"><br>
+            <input type="tel"  class="input-login" placeholder="Nº Celular" pattern="[0-9]{2}[9]{1}[0-9]{4}[0-9]{4}" required><br>
+            <input type="email" class="input-login" id="email" name="email" placeholder="E-mail" required><br>
+			<input type="password" class="input-login" placeholder="Senha">
+            <hr>
+            <h5>Endereço:</h5>
+            <input type="text" class="input-login" placeholder="Rua"><br>
+            <input type="text" class="input-login" placeholder="Nº residência" ><br>
+            <select class="input-login"  onchange="selectopcao()">
+                {{#each bairro}}
+                <option >{{this.nome}}</option>
+                {{else}}
+
+                {{/each}}
+            </select>
+            <input type="text" class="input-login" placeholder="CEP" pattern="[0-9]{5}-[0-9]{3}">
+            <input type="text" class="input-login" placeholder="Complemento">
+            				
+		</div>
+		<div class="area-botoes container">
+			<button type="submit" class="button-login">Cadastrar</button>			
+		</div>
+	</form>
+	</div>
