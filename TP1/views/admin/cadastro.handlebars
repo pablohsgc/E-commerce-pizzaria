@@ -1,31 +1,99 @@
-<div class="container">
-	<form class="form-login container" method="post" action="cadastro.html">
-		<h3 class="titulo-login">Cadastro Pizzaria</h3>
-        <hr>
-		<div class="container">
-            <h5>Dados Pessoais:</h5>
-            <input type="text" class="input-login" id="fname" name="fname" placeholder="Pirmeiro nome"><br>
-            <input type="text" class="input-login" id="lname" name="lname" placeholder="Ultimo nome"><br>
-            <input type="tel"  class="input-login" placeholder="Nº Celular" pattern="[0-9]{2}[9]{1}[0-9]{4}[0-9]{4}" required><br>
-            <input type="email" class="input-login" id="email" name="email" placeholder="E-mail" required><br>
-			<input type="password" class="input-login" placeholder="Senha">
-            <hr>
-            <h5>Endereço:</h5>
-            <input type="text" class="input-login" placeholder="Rua"><br>
-            <input type="text" class="input-login" placeholder="Nº residência" ><br>
-            <select class="input-login"  onchange="selectopcao()">
-                {{#each bairro}}
-                <option >{{this.nome}}</option>
-                {{else}}
+<section>
+  <div class="container menu-pizzaria" id="cardapio-pizzaria">
+    <br>
+    <h3 class="titulo-categoria">Cadastro de Cliente</h3><br>
+    <form class="form-horizontal">
 
-                {{/each}}
-            </select>
-            <input type="text" class="input-login" placeholder="CEP" pattern="[0-9]{5}-[0-9]{3}">
-            <input type="text" class="input-login" placeholder="Complemento">
-            				
-		</div>
-		<div class="area-botoes container">
-			<button type="submit" class="button-login">Cadastrar</button>			
-		</div>
-	</form>
-	</div>
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <label for="Nome">Nome<h11>*</h11></label>
+          <input type="text" class="form-control" placeholder="Nome completo">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="cpf">CPF <h11>*</h11></label>
+          <input type="text" class="form-control" placeholder="Apenas números">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <label for="email">Email<h11>*</h11></label>
+          <input type="text" class="form-control" placeholder="email@example.com">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="telefone">Telefone <h11>*</h11></label>
+          <input type="text" class="form-control" placeholder="Apenas números">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-row">
+
+        <div class="form-group col-md-6">
+          <label for="rua">Endereço</label>
+          <input type="text" class="form-control" placeholder="Rua">
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="numero">Número</label>
+          <input type="text" class="form-control" placeholder="">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="numero">Complemento</label>
+          <input type="text" class="form-control" placeholder="">
+        </div>
+
+      </div>
+
+      <br>
+      <div class="form-row">
+
+        <div class="form-group col-md-4">
+          <label for="inputState">Bairro</label>
+          <select id="inputState" class="form-control">
+            {{#each bairro}}
+            <option>{{this.nome}}</option>
+            {{else}}
+            {{/each}}
+          </select>
+        </div>
+        </select>
+
+        <div class="form-group col-md-4">
+          <label for="inputCity">Cidade</label>
+          <select id="inputState" class="form-control">
+            <option selected>Belo Horizonte</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="inputState">Estado</label>
+          <select id="inputState" class="form-control">
+            <option selected>MG</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="inputZip">CEP</label>
+          <input type="text" class="form-control" id="inputZip">
+        </div>
+
+      </div>
+  </div>
+
+  <br>
+
+  <div class="form-group col-md-12 text-center">
+    <button id="Cadastrar" name="Cadastrar" class="btn btn-success" type="Submit">Cadastrar</button>
+    <button id="Cancelar" name="Cancelar" class="btn btn-danger" type="Reset">Cancelar</button>
+  </div>
+  </form>
+  </div>
+
+</section>
