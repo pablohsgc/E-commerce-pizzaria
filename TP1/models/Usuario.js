@@ -1,5 +1,7 @@
-/*const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Bairro = mongoose.model("bairros")
+require("../models/Bairro")
 
 const Usuario = new Schema({
     nome: {
@@ -19,10 +21,22 @@ const Usuario = new Schema({
         required: true
     },
     endereco: {
-        type: Schema.Types.ObjectId,
-        ref: enderecos,
-        required: true
+        rua: {
+            type: String,
+            required: true
+        },
+        numero: {
+            type: String,
+            required: true
+        },
+        complemento: {
+            type: String            
+        },
+        bairro: {
+            type: String,
+            required: true
+        }
     }    
 })
 
-mongoose.model("usuarios",Usuario)*/
+mongoose.model("usuarios",Usuario)

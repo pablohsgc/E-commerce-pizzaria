@@ -7,46 +7,43 @@
       <div class="form-row">
         <div class="form-group col-md-8">
           <label for="Nome">Nome<h11>*</h11></label>
-          <input type="text" class="form-control" placeholder="Nome completo" required>
+          <input type="text" class="form-control" name="nome" placeholder="Nome completo" required>
         </div>
 
         <div class="form-group col-md-4">
           <label for="cpf">CPF <h11>*</h11></label>
-          <input type="text" class="form-control" placeholder="Apenas números" required>
+          <input type="text" class="form-control" name="cpf" placeholder="Apenas números" required>
         </div>
       </div>
 
       <br>
-
       <div class="form-row">
         <div class="form-group col-md-8">
           <label for="email">Email<h11>*</h11></label>
-          <input type="text" class="form-control" placeholder="email@example.com" required>
+          <input type="text" class="form-control" name="email" placeholder="email@example.com" required>
         </div>
 
         <div class="form-group col-md-4">
           <label for="telefone">Telefone <h11>*</h11></label>
-          <input type="text" class="form-control" placeholder="Apenas números" required>
+          <input type="text" class="form-control" name="telefone" placeholder="Apenas números" required>
         </div>
       </div>
 
       <br>
-
       <div class="form-row">
-
         <div class="form-group col-md-6">
           <label for="rua">Endereço</label>
-          <input type="text" class="form-control" placeholder="Rua" required>
+          <input type="text" class="form-control" name="rua" placeholder="Rua" required>
         </div>
 
         <div class="form-group col-md-2">
           <label for="numero">Número</label>
-          <input type="text" class="form-control" placeholder="" required>
+          <input type="text" class="form-control" name="numero" placeholder="" required>
         </div>
 
         <div class="form-group col-md-4">
           <label for="numero">Complemento</label>
-          <input type="text" class="form-control" placeholder="">
+          <input type="text" class="form-control" name="complemento" placeholder="">
         </div>
 
       </div>
@@ -56,7 +53,7 @@
 
         <div class="form-group col-md-4">
           <label for="inputState">Bairro</label>
-          <select id="inputState" class="form-control" required>
+          <select id="inputState" class="form-control" name="bairro" required>
             {{#each bairro}}
             <option>{{this.nome}}</option>
             {{else}}
@@ -67,21 +64,21 @@
 
         <div class="form-group col-md-4">
           <label for="inputCity">Cidade</label>
-          <select id="inputState" class="form-control">
+          <select id="inputState" class="form-control" name="cidade">
             <option selected>Belo Horizonte</option>
           </select>
         </div>
 
         <div class="form-group col-md-2">
           <label for="inputState">Estado</label>
-          <select id="inputState" class="form-control">
+          <select id="inputState" class="form-control" name="estado">
             <option selected>MG</option>
           </select>
         </div>
 
         <div class="form-group col-md-2">
           <label for="inputZip">CEP</label>
-          <input type="text" class="form-control" id="inputZip" required>
+          <input type="text" class="form-control" name="cep" id="inputZip" required>
         </div>
 
       </div>

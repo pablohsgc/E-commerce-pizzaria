@@ -5,14 +5,16 @@ const mongoose = require("mongoose")
 require("../models/Categorias")
 require("../models/Produto")
 require("../models/Bairro")
-//require("../models/Usuario")
+require("../models/Usuario")
 //require("../models/Endereco")
 
+//const Endereco = mongoose.model("enderecos")
+const Usuario = mongoose.model("usuarios")
 const Categoria = mongoose.model("categorias")
 const Produto = mongoose.model("produtos")
 const Bairro = mongoose.model("bairros")
-//const Endereco = mongoose.model("enderecos")
-//const Usuario = mongoose.model("usuarios")
+
+
 
 router.get('/', (req, res) =>{
     res.render('admin/index')
@@ -46,13 +48,13 @@ router.get('/categorias', (req, res) =>{
 router.get('/cadastro', (req, res) =>{
     Bairro.find().then((bairros) =>{ 
         var elementos = [];
-        //console.log(bairros)
+        
         bairros.forEach((elemento) =>{
             var item = {
                 nome:elemento["nome"]					
             };
             elementos.push(item)
-        })
+        })        
         res.render('admin/cadastro', {bairro: elementos})			
     }).catch((erro)=>{
         console.log(erro)			
@@ -60,17 +62,26 @@ router.get('/cadastro', (req, res) =>{
 })  
 
 router.post("/cadastro", (req, res) => {
+    
     const novoUsuario = {
         nome: req.body.nome,
         cpf: req.body.cpf,
         email: req.body.email,
         telefone: req.body.telefone,
-        Endereco: req.body.Endereco
+        endereco: {
+            rua: req.body.rua,
+            numero: req.body.numero,
+            complemento: req.body.complemento,
+            bairro: req.body.bairro,
+            cidade: req.body.cidade,
+            estado: req.body.estado,
+            cep: req.body.cep
+        }
     }
-
-    new novoUsuario(novoUsuario).save().then( () => {
-        req.flash("success_msg", "PUsuario cadastrado com sucesso!")
-        res.redirect("/categorias")
+    
+    new Usuario(novoUsuario).save().then( () => {
+        req.flash("success_msg", "Usuario cadastrado com sucesso!")
+        res.redirect("/categorias")        
     }).catch((erro) => {
         req.flash("error_msg", "Houve um erro ao Cadastrar Usuário!")
         res.redirect("/cadastro")
