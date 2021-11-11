@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
+/*const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Bairro = mongoose.model("bairros")
 
-endereco: [{
+const Endereco = new Schema({
     rua: {
         type: String,
         required: true
@@ -14,7 +13,11 @@ endereco: [{
     complemento: {
         type: String            
     },
-    Bairro,
-}]
+    bairro: {
+        type: Schema.Types.ObjectId,
+        ref: bairros,
+        required: true
+    }
+})
 
-mongoose.model("enderecos",Endereco)
+mongoose.model("enderecos",Endereco)*/

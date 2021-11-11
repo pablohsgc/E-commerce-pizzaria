@@ -1,12 +1,18 @@
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
+
 require("../models/Categorias")
 require("../models/Produto")
 require("../models/Bairro")
+//require("../models/Usuario")
+//require("../models/Endereco")
+
 const Categoria = mongoose.model("categorias")
 const Produto = mongoose.model("produtos")
 const Bairro = mongoose.model("bairros")
+//const Endereco = mongoose.model("enderecos")
+//const Usuario = mongoose.model("usuarios")
 
 router.get('/', (req, res) =>{
     res.render('admin/index')
@@ -52,6 +58,24 @@ router.get('/cadastro', (req, res) =>{
         console.log(erro)			
     })     
 })  
+
+router.post("/cadastro", (req, res) => {
+    const novoUsuario = {
+        nome: req.body.nome,
+        cpf: req.body.cpf,
+        email: req.body.email,
+        telefone: req.body.telefone,
+        Endereco: req.body.Endereco
+    }
+
+    new novoUsuario(novoUsuario).save().then( () => {
+        req.flash("success_msg", "PUsuario cadastrado com sucesso!")
+        res.redirect("/categorias")
+    }).catch((erro) => {
+        req.flash("error_msg", "Houve um erro ao Cadastrar Usuário!")
+        res.redirect("/cadastro")
+    })
+})
 
 router.get('/categorias/add', (req, res) =>{
     res.render("admin/addcategorias") 

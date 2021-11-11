@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
+/*const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Endereco = mongoose.model('enderecos')
 
 const Usuario = new Schema({
     nome: {
@@ -19,7 +18,11 @@ const Usuario = new Schema({
         type: String,
         required: true
     },
-    Endereco    
+    endereco: {
+        type: Schema.Types.ObjectId,
+        ref: enderecos,
+        required: true
+    }    
 })
 
-mongoose.model("usuarios",Usuario)
+mongoose.model("usuarios",Usuario)*/
