@@ -1,0 +1,107 @@
+<section>
+  <div class="container menu-pizzaria" id="cardapio-pizzaria">
+    <br>
+    <h3 class="titulo-categoria">Cadastro de Cliente</h3><br>
+    <form class="form-horizontal" action="/cadastro" method="POST">
+
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <label for="Nome">Nome<h11>*</h11></label>
+          <input type="text" class="form-control" name="nome" placeholder="Nome completo" required>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="cpf">CPF <h11>*</h11></label>
+          <input type="text" class="form-control" name="cpf" placeholder="Apenas números" required>
+        </div>
+      </div>
+
+      <br>
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <label for="email">Email<h11>*</h11></label>
+          <input type="text" class="form-control" name="email" placeholder="email@example.com" required>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="telefone">Telefone<h11>*</h11></label>
+          <input type="text" class="form-control" name="telefone" placeholder="Apenas números" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="senha1">Senha<h11>*</h11></label>
+          <input type="password" class="form-control" name="senha1" placeholder="" required>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="senha2">Repita a senha<h11>*</h11></label>
+          <input type="password" class="form-control" name="senha2" placeholder="" required>
+        </div>
+      </div>
+
+      <br>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="rua">Endereço</label>
+          <input type="text" class="form-control" name="rua" placeholder="Rua" required>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="numero">Número</label>
+          <input type="text" class="form-control" name="numero" placeholder="" required>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="numero">Complemento</label>
+          <input type="text" class="form-control" name="complemento" placeholder="">
+        </div>
+
+      </div>
+
+      <br>
+      <div class="form-row">
+
+        <div class="form-group col-md-4">
+          <label for="inputState">Bairro</label>
+          <select id="inputState" class="form-control" name="bairro" required>
+            {{#each bairro}}
+            <option>{{this.nome}}</option>
+            {{else}}
+            {{/each}}
+          </select>
+        </div>
+        </select>
+
+        <div class="form-group col-md-4">
+          <label for="inputCity">Cidade</label>
+          <select id="inputState" class="form-control" name="cidade">
+            <option selected>Belo Horizonte</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="inputState">Estado</label>
+          <select id="inputState" class="form-control" name="estado">
+            <option selected>MG</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="inputZip">CEP</label>
+          <input type="text" class="form-control" name="cep" id="inputZip" required>
+        </div>
+
+      </div>
+
+      <div class="form-group col-md-12 text-center">
+        <button id="Cadastrar" name="Cadastrar" class="btn btn-success" type="Submit">Cadastrar</button>
+        <button id="Cancelar" name="Cancelar" class="btn btn-danger" type="Reset">Cancelar</button>
+      </div>
+  </div>
+
+  </form>
+  </div>
+
+</section>
