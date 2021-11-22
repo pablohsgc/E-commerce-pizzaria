@@ -7,7 +7,6 @@ require("../models/Bairro")
 require("../models/Usuario")
 
 const Usuario = mongoose.model("usuarios")
-//const Produto = mongoose.model("produtos")
 const Bairro = mongoose.model("bairros")
 
 const AutenticacaoUsuario = require('../controller/AutenticacaoUsuario')
@@ -35,9 +34,11 @@ router.get('/cardapio', async (req, res) =>{
         req.flash("error_msg","Houve erro ao listar as categorias!")
         res.redirect("/admin")
     })*/
-
+    /*
     let pizzas = await Cardapio.pizzas()
-    res.render("admin/cardapio",{categorias:pizzas})
+    res.render("admin/cardapio",{categorias:pizzas})*/
+    let categorias_cardapio = await Cardapio.cardapio()
+    res.render("admin/cardapio",{categorias:categorias_cardapio})
 })  
 
 router.get('/cadastro', (req, res) =>{

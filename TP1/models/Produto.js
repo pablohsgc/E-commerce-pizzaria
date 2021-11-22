@@ -13,6 +13,10 @@ const Produto = new Schema({
     preco: {
         type: Number,
         required:true
+    },
+    categoria:{
+        type:String,
+        required:true
     }
 })
 
