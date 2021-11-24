@@ -7,8 +7,8 @@ class CardapioController{
 
     }
 
-    async pizzas(){
-        return await Produto.find({categoria:"Pizzas"}).then((produtos) => { 
+    async pizzas(nome_categoria){
+        return await Produto.find({categoria: nome_categoria}).then((produtos) => { 
             var elementos = [];
     
             produtos.forEach((elemento) =>{
@@ -27,11 +27,19 @@ class CardapioController{
     }
 
     async cardapio(){
-        var pizzas_cardapio = await this.pizzas()
+        var pizzas_cardapio = await this.pizzas("Pizzas")
+        var bebidas_cardapio = await this.pizzas("Bebidas")
+        var promocoes_cardapio = await this.pizzas("Promoções")
 
         var categorias = [{
             titulo_categoria:"Pizzas",
-            elementos:pizzas_cardapio
+            elementos:pizzas_cardapio},
+
+            {titulo_categoria:"Bebidas",
+            elementos:bebidas_cardapio},
+
+            {titulo_categoria:"Promoções",
+            elementos:promocoes_cardapio
         }]
 
         return categorias;
