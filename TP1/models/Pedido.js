@@ -26,23 +26,27 @@ const Pedido = new Schema({
     dadosEntrega: {
         nome: {
             type: String,
-            required: true
+            required: true,
+            default: "User_sem_login"
         },
         endereco: {
             rua: {
                 type: String,
-                required: true
+                required: true,
+                default: "User_sem_login"
             },
             numero: {
                 type: String,
-                required: true
+                required: true,
+                default: "000"
             },
             complemento: {
                 type: String            
             },
             bairro: {
                 type: String,
-                required: true
+                required: true,
+                default: "User_sem_login"
             }
         }    
     }    

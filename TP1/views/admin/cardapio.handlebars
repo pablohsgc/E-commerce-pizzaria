@@ -11,8 +11,8 @@
                     <span>R$<span class="preco">{{preco}}</span></span><br>
                 </div>
                 <div class="ml-auto">
-                    <button class="material-icons btn btn-success sm">add_shopping_cart</button>
-                    <button class="material-icons btn btn-danger">remove_shopping_cart</button>
+                    <button class="material-icons btn btn-success sm" onclick="addItemCarrinho('{{nome}}', {{preco}}, 1)">add_shopping_cart</button>
+                    <button class="material-icons btn btn-danger" onclick="removeItemCarrinho('{{nome}}', {{preco}}, 1)">remove_shopping_cart</button>
                 </div>
             </div>
         </div>
