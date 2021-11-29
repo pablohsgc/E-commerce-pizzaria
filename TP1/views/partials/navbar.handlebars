@@ -17,7 +17,7 @@
         </li>
       </ul>
 
-      {{#if login_confirm}}
+      {{#if session.user}}
         <a href="/deslogarUsuario">
             <button class="btn btn-outline-danger my-2 my-sm-0">Sair</button>
         </a>

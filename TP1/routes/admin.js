@@ -13,6 +13,7 @@ const LoginController = require('../controller/LoginController')
 const login = new LoginController()
 
 const CardapioController = require('../controller/CardapioController')
+const session = require("express-session")
 const Cardapio = new CardapioController()
 
 
@@ -21,8 +22,6 @@ router.get('/', (req, res) =>{
 })
 
 router.get('/cardapio', async (req, res) =>{
-    if(login.usuario != null)
-        req.flash("login_confirm","Usuario logado!")
 
     try{
         let categorias_cardapio = await Cardapio.cardapio()
@@ -36,9 +35,6 @@ router.get('/cardapio', async (req, res) =>{
 })  
 
 router.get('/cadastro', (req, res) =>{
-    if(login.usuario != null)
-        req.flash("login_confirm","Usuario logado!")
-
     //Listagem de bairros no input de bairro da interface cadastro
     Bairro.find().then((bairros) =>{ 
         var elementos = [];
@@ -98,8 +94,8 @@ router.get("/login", (req, res) => {
 
 router.post("/login", async (req, res) => {
     try{
-        await login.login(req.body.email,req.body.password)
-        req.flash("login_confirm","Usuario logado!") 
+        await login.login(req.body.email,req.body.password) 
+        req.session.user = true
         res.redirect("/cardapio")
     }catch(erro){
         req.flash("error_msg",erro)
@@ -113,6 +109,7 @@ router.post("/nomePizza", async (req, res) =>{
 
 router.get("/deslogarUsuario", (req,res) =>{
     login.logout()
+    req.session.user = null
     res.redirect("/login")
 })
 

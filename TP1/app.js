@@ -12,8 +12,8 @@ const path = require("path")
 
 app.use(session({
     secret: "tp1",
-    resave:true,
-    saveUninitialized:true
+    resave:false,
+    saveUninitialized:false
 }))
 
 app.use(express.static(path.join(__dirname,"public")));
@@ -23,7 +23,7 @@ app.use(flash())
 app.use((req,res,next) =>{
     res.locals.success_msg = req.flash("success_msg")
     res.locals.error_msg = req.flash("error_msg")
-    res.locals.login_confirm = req.flash("login_confirm")
+    res.locals.session = req.session;
     next()
 })
 
@@ -34,6 +34,7 @@ app.use((req,res,next) =>{
 //  Handlebars
     app.engine('handlebars',handlebars({defaultLayout:'main'}))
     app.set('view engine', 'handlebars')
+    
 //  Mongoose
     mongoose.connect("mongodb+srv://pablohsgc:tp1mongo@cluster0.o0gi1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority").then(() =>{
         console.log("Conectado ao MongoDB")
