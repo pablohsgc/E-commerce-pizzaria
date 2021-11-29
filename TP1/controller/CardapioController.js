@@ -15,7 +15,8 @@ class CardapioController{
                 var item = {
                     nome:elemento["nome"],
                     descricao:elemento["descricao"],
-                    preco:elemento["preco"]
+                    preco:elemento["preco"],
+                    id:elemento["_id"]
                 };
                 elementos.push(item)
             })
@@ -33,16 +34,22 @@ class CardapioController{
 
         var categorias = [{
             titulo_categoria:"Pizzas",
-            elementos:pizzas_cardapio},
-
-            {titulo_categoria:"Bebidas",
-            elementos:bebidas_cardapio},
-
-            {titulo_categoria:"Promoções",
+            elementos:pizzas_cardapio
+        },{
+            titulo_categoria:"Bebidas",
+            elementos:bebidas_cardapio
+        },{
+            titulo_categoria:"Promoções",
             elementos:promocoes_cardapio
         }]
 
         return categorias;
+    }
+
+    async nomes_pizzas(){
+        let pizzas = await this.pizzas("Pizzas");
+        let nomes = pizzas.map(pizza => pizza.nome)
+        return {Pizzas:nomes}
     }
 }
 

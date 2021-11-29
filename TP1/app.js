@@ -8,12 +8,15 @@ const admin = require('./routes/admin')
 const mongoose = require('mongoose')
 const session = require("express-session")
 const flash = require("connect-flash")
+const path = require("path")
 
 app.use(session({
     secret: "tp1",
     resave:true,
     saveUninitialized:true
 }))
+
+app.use(express.static(path.join(__dirname,"public")));
 
 app.use(flash())
 

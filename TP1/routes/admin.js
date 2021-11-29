@@ -18,27 +18,15 @@ router.get('/', (req, res) =>{
 })
 
 router.get('/cardapio', async (req, res) =>{
-    /*Produto.find().then((produtos) =>{ 
-        var elementos = [];
-
-        produtos.forEach((elemento) =>{
-            var item = {
-                nome:elemento["nome"],
-                descricao:elemento["descricao"],
-                preco:elemento["preco"]
-            };
-            elementos.push(item)
-        })
-        res.render("admin/cardapio",{categorias: elementos})
-    }).catch((erro)=>{
-        req.flash("error_msg","Houve erro ao listar as categorias!")
-        res.redirect("/admin")
-    })*/
-    /*
-    let pizzas = await Cardapio.pizzas()
-    res.render("admin/cardapio",{categorias:pizzas})*/
-    let categorias_cardapio = await Cardapio.cardapio()
-    res.render("admin/cardapio",{categorias:categorias_cardapio})
+    try{
+        let categorias_cardapio = await Cardapio.cardapio()
+        let pizzas_cardapio = [categorias_cardapio[0]]; 
+        categorias_cardapio.shift();
+        res.render("admin/cardapio",{pizzas:pizzas_cardapio,categorias:categorias_cardapio/*categorias:categorias_cardapio*/})
+    }catch(erro){
+        req.flash("error_msg", erro)
+        res.render("admin/cardapio")
+    }
 })  
 
 router.get('/cadastro', (req, res) =>{
@@ -91,40 +79,6 @@ router.post("/cadastro", (req, res) => {
     }   
 })
 
-/*
-router.get('/categorias/add', (req, res) =>{
-    res.render("admin/addcategorias") 
-})
-
-router.post("/categorias/nova",(req,res) =>{
-    var erros = []
-
-    if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
-        erros.push({texto:"Nome inválido"})
-    }
-
-    if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null){
-        erros.push({texto:"Slug inválido"})
-    }
-
-    if(erros.length > 0){
-        res.render("admin/addcategorias",{erros:erros})
-    }else{
-        const novaCategoria = {
-            nome: req.body.nome,
-            slug: req.body.slug
-        }
-    
-        new Categoria(novaCategoria).save().then(() =>{
-            req.flash("success_msg","Categoria criada com sucesso!")
-            res.redirect("/categorias")
-        }).catch((erro) =>{
-            req.flash("error_msg","Categoria criada com sucesso!")
-            res.redirect("/categorias")
-        })
-    }
-})
-*/
 router.get("/login", (req, res) => {    
     res.render("admin/login")
 })
@@ -133,6 +87,10 @@ router.post("/login", async (req, res) => {
     let Autenticacao = new AutenticacaoUsuario(req.body.email,req.body.password) 
     let resultado = await Autenticacao.autenticar()  
     res.send(resultado)
+})
+
+router.post("/nomePizza", async (req, res) =>{
+    res.json(await Cardapio.nomes_pizzas())
 })
 
 module.exports = router

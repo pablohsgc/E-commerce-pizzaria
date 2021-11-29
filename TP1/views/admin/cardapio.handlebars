@@ -1,5 +1,34 @@
 <div class="container menu-pizzaria" id="cardapio-pizzaria">
 {{>msg}} <!-- Modulo partial de mensagens -->
+
+{{#each pizzas}} <!-- Loop para iterar sobre categorias do cardapio -->
+<h3 class="titulo-categoria">{{titulo_categoria}}</h3> <!-- Titulo da categoria -->
+    {{#each elementos}} <!-- Loop sobre os elementos da categoria -->
+        <div class="card mb-1 menu-opcao d-flex p-3">
+            <h4>{{nome}}</h4>
+            <span class="text">{{descricao}}</span>
+            <div class="d-flex">
+                <div class="text area-preco">
+                    <span>R$<span class="preco">{{preco}}</span></span><br>
+                </div>
+                <div class="ml-auto">
+                    <button class="material-icons btn btn-meia-pizza btn-warning" onclick="selecionaMetadePizza('{{id}}','{{nome}}')"><img class="img-meia-pizza" src="/assets/meia-pizza.png" alt="meia pizza"></button>
+                    <button class="material-icons btn btn-success sm">add_shopping_cart</button>
+                    <button class="material-icons btn btn-danger">remove_shopping_cart</button>
+                </div>
+            </div>
+            <div class="area-pizzas-metade" id="{{id}}">
+
+            </div>
+        </div>
+    {{else}}
+        <div class="alert alert-danger">Não foi possivel renderizar os elementos!</div>
+    {{/each}}
+
+{{else}}
+    <div class="alert alert-danger">Não foi possivel renderizar as categorias!</div>
+{{/each}}
+
 {{#each categorias}} <!-- Loop para iterar sobre categorias do cardapio -->
 <h3 class="titulo-categoria">{{titulo_categoria}}</h3> <!-- Titulo da categoria -->
     {{#each elementos}} <!-- Loop sobre os elementos da categoria -->
@@ -11,8 +40,8 @@
                     <span>R$<span class="preco">{{preco}}</span></span><br>
                 </div>
                 <div class="ml-auto">
-                    <button class="material-icons btn btn-success sm" onclick="addItemCarrinho('{{nome}}', {{preco}}, 1)">add_shopping_cart</button>
-                    <button class="material-icons btn btn-danger" onclick="removeItemCarrinho('{{nome}}', {{preco}}, 1)">remove_shopping_cart</button>
+                    <button class="material-icons btn btn-success sm">add_shopping_cart</button>
+                    <button class="material-icons btn btn-danger">remove_shopping_cart</button>
                 </div>
             </div>
         </div>
@@ -24,3 +53,32 @@
     <div class="alert alert-danger">Não foi possivel renderizar as categorias!</div>
 {{/each}}
 </div>
+
+
+<script>
+    function nome_pizzas(){// tentar adicionar o script separado na pasta public
+        return fetch("http://localhost:3000/nomePizza",{
+            method:'POST'
+        })
+        .then(response => response.json())
+        .then((json) =>{
+            return json.Pizzas
+        }).catch((erro) =>{
+            console.log(erro)
+            return null
+        })
+    }
+
+    function selecionaMetadePizza(id,nome_pizza){
+        let div = document.getElementById(id);
+        nome_pizzas().then((pizzas) =>{
+            let areaSelecao = "<div class='sub-area-pizzas d-flex justify-content-between'>"
+            for(pizza of pizzas){
+                if(!(pizza === nome_pizza))
+                areaSelecao += "<button class='btn btn-warning btn-metade-pizza'>" + pizza + "</button>";
+            }
+            areaSelecao += '</div>';
+            div.innerHTML = areaSelecao;
+        })
+    }
+</script>
