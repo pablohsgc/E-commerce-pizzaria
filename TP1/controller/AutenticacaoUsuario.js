@@ -11,10 +11,10 @@ class AutenticacaoUsuario{
     async autenticar(){
         return await Usuario.findOne({"email":this.email}).then((usuario) => {
             if(usuario["senha"] == this.password)
-                return true
-            return false
+                return usuario
+            throw "Erro: Credenciais incorretas ou usuário não existe!"
         }).catch((erro) => {
-            return false
+            throw erro
         })
     }
 }

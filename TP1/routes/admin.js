@@ -9,15 +9,21 @@ require("../models/Usuario")
 const Usuario = mongoose.model("usuarios")
 const Bairro = mongoose.model("bairros")
 
-const AutenticacaoUsuario = require('../controller/AutenticacaoUsuario')
+const LoginController = require('../controller/LoginController')
+const login = new LoginController()
+
 const CardapioController = require('../controller/CardapioController')
 const Cardapio = new CardapioController()
+
 
 router.get('/', (req, res) =>{
     res.redirect('/cardapio')
 })
 
 router.get('/cardapio', async (req, res) =>{
+    if(login.usuario != null)
+        req.flash("login_confirm","Usuario logado!")
+
     try{
         let categorias_cardapio = await Cardapio.cardapio()
         let pizzas_cardapio = [categorias_cardapio[0]]; 
@@ -30,6 +36,9 @@ router.get('/cardapio', async (req, res) =>{
 })  
 
 router.get('/cadastro', (req, res) =>{
+    if(login.usuario != null)
+        req.flash("login_confirm","Usuario logado!")
+
     //Listagem de bairros no input de bairro da interface cadastro
     Bairro.find().then((bairros) =>{ 
         var elementos = [];
@@ -79,18 +88,32 @@ router.post("/cadastro", (req, res) => {
     }   
 })
 
-router.get("/login", (req, res) => {    
+router.get("/login", (req, res) => {  
+    if(login.usuario != null){
+        req.flash("success_msg","Usuario já está logado!")
+        res.redirect("/cardapio")
+    }  
     res.render("admin/login")
 })
 
 router.post("/login", async (req, res) => {
-    let Autenticacao = new AutenticacaoUsuario(req.body.email,req.body.password) 
-    let resultado = await Autenticacao.autenticar()  
-    res.send(resultado)
+    try{
+        await login.login(req.body.email,req.body.password)
+        req.flash("login_confirm","Usuario logado!") 
+        res.redirect("/cardapio")
+    }catch(erro){
+        req.flash("error_msg",erro)
+        res.redirect("/login")
+    }
 })
 
 router.post("/nomePizza", async (req, res) =>{
     res.json(await Cardapio.nomes_pizzas())
+})
+
+router.get("/deslogarUsuario", (req,res) =>{
+    login.logout()
+    res.redirect("/login")
 })
 
 module.exports = router
