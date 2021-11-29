@@ -13,9 +13,10 @@
                 </div>
                 {{#if ../../session.user}}
                 <div class="ml-auto">
+                    <input type="number" class="input-preco btn btn-light" id='qtd-{{id}}' min='0' placeholder="0">
                     <button class="material-icons btn btn-meia-pizza btn-warning" onclick="selecionaMetadePizza('{{id}}','{{nome}}')"><img class="img-meia-pizza" src="/assets/meia-pizza.png" alt="meia pizza"></button>
-                    <button class="material-icons btn btn-success sm">add_shopping_cart</button>
-                    <button class="material-icons btn btn-danger">remove_shopping_cart</button>
+                    <button class="material-icons btn btn-success sm" onclick="adicionaProduto('{{nome}}',{{preco}},'qtd-{{id}}')">add_shopping_cart</button>
+                    <button class="material-icons btn btn-danger" onclick="removeProduto('{{nome}}')">remove_shopping_cart</button>
                 </div>
                 {{/if}}
             </div>
@@ -43,8 +44,9 @@
                 </div>
                 {{#if ../../session.user}}
                 <div class="ml-auto">
-                    <button class="material-icons btn btn-success sm">add_shopping_cart</button>
-                    <button class="material-icons btn btn-danger">remove_shopping_cart</button>
+                    <input type="number" class="input-preco btn btn-light" id='qtd-{{id}}' min='0' placeholder="0">
+                    <button class="material-icons btn btn-success sm" onclick="adicionaProduto('{{nome}}',{{preco}},'qtd-{{id}}')">add_shopping_cart</button>
+                    <button class="material-icons btn btn-danger" onclick="removeProduto('{{nome}}')">remove_shopping_cart</button>
                 </div>
                 {{/if}}
             </div>
@@ -56,6 +58,15 @@
 {{else}}
     <div class="alert alert-danger">Não foi possivel renderizar as categorias!</div>
 {{/each}}
+    {{#if session.user}}
+        <div class="card menu-opcao p-3">
+            <h4>Produtos:</h4>
+            <div id="carrinho"></div>
+            <div class="d-flex justify-content-center mt-2">
+                <button class="btn btn-success">Finalizar pedido</button>
+            </div>
+        </div>
+    {{/if}}
 </div>
 
 
@@ -84,5 +95,57 @@
             areaSelecao += '</div>';
             div.innerHTML = areaSelecao;
         })
+    }
+
+    function adicionaProduto(nome_produto,preco_produto,id_quantidade){
+        let quantidade_produto = document.getElementById(id_quantidade).value;
+        let produto = {
+            "nome":nome_produto,
+            "preco":parseFloat(preco_produto),
+            "quantidade":quantidade_produto
+        }
+
+        fetch("http://localhost:3000/adicionaProduto",{
+            method:'POST',
+            body:JSON.stringify(produto),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(response => response.json())
+        .then((json) =>{
+            reproduzPedido(json.Produtos,json.Total)
+        }).catch((erro) =>{
+            console.log(erro)
+        })
+    }
+
+    function removeProduto(nome_produto){
+        let produto = {
+            "nome":nome_produto,
+        }
+
+        fetch("http://localhost:3000/removeProduto",{
+            method:'POST',
+            body:JSON.stringify(produto),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(response => response.json())
+        .then((json) =>{
+            reproduzPedido(json.Produtos,json.Total)
+        }).catch((erro) =>{
+            console.log(erro)
+        })
+
+    }
+
+    function reproduzPedido(produtos,total){
+        let areaProdutos = "<ol>";
+
+        for(produto of produtos){
+            areaProdutos += '<li>' + produto.nome + ', preço: R$' + produto.preco + ', quantidade: ' + produto.quantidade + '</li>';
+        }
+
+        areaProdutos += '</ol><p><span class="preco">R$ ' + total + '</span></p>';
+        let div = document.getElementById("carrinho");
+        div.innerHTML = areaProdutos;
     }
 </script>

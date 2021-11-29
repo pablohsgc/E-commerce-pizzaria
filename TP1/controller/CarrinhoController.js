@@ -1,21 +1,22 @@
-class CarrinhoService{
+class CarrinhoController{
     
     constructor(){      
         this.carrinho = []
         this.precoTotal = 0        
     }
 
-    addItemCarrinho(nome, preco, quantidade)  {
+    addProdutoCarrinho(nome, preco, quantidade)  {
         var item = {
             nome: nome,
             quantidade: quantidade,
             preco: preco
         }
+
         this.carrinho.push(item)
         this.precoTotal += preco        
     }
     
-    removeItemCarrinho(nome, preco, quantidade){
+    removeProdutoCarrinho(nome, preco, quantidade){
         var item = {
             nome: nome,
             quantidade: quantidade,
@@ -31,4 +32,11 @@ class CarrinhoService{
             pos = pos + 1               
         }      
     }
+
+    esvaziaCarrinho(){
+        this.carrinho = []
+        this.precoTotal = 0
+    }
 }
+
+module.exports = CarrinhoController

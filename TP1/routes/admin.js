@@ -16,6 +16,8 @@ const CardapioController = require('../controller/CardapioController')
 const session = require("express-session")
 const Cardapio = new CardapioController()
 
+const CarrinhoController = require('../controller/CarrinhoController')
+const carrinho = new CarrinhoController()
 
 router.get('/', (req, res) =>{
     res.redirect('/cardapio')
@@ -110,7 +112,18 @@ router.post("/nomePizza", async (req, res) =>{
 router.get("/deslogarUsuario", (req,res) =>{
     login.logout()
     req.session.user = null
+    carrinho.esvaziaCarrinho()
     res.redirect("/login")
+})
+
+router.post("/adicionaProduto", (req,res) =>{
+    carrinho.addProdutoCarrinho(req.body.nome,req.body.preco,req.body.quantidade)
+    res.json({"Produtos":carrinho.carrinho,"Total":carrinho.precoTotal})
+})
+
+router.post("/removeProduto", (req,res) =>{
+    carrinho.removeProdutoCarrinho(req.body.nome)
+    res.json({"Produtos":carrinho.carrinho,"Total":carrinho.precoTotal})
 })
 
 module.exports = router
