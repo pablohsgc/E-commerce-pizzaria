@@ -60,7 +60,7 @@
 {{/each}}
     {{#if session.user}}
         <div class="card menu-opcao p-3">
-            <h4>Produtos:</h4>
+            <h3>Carrinho de Compras:</h3>
             <div id="carrinho"></div>
             <div class="d-flex justify-content-center mt-2">
                 <button class="btn btn-success">Finalizar pedido</button>
@@ -118,12 +118,11 @@
         })
     }
 
-    function removeProduto(nome_produto){
-        console.log(nome_produto)
+    function removeProduto(nome_produto){        
         let produto = {
             "nome":nome_produto
         }
-        console.log(produto)
+
         fetch("http://localhost:3000/removeProduto",{
             method:'POST',
             body:JSON.stringify(produto),
@@ -145,7 +144,7 @@
             areaProdutos += '<li>' + produto.nome + ', preço: R$' + produto.preco + ', quantidade: ' + produto.quantidade + '</li>';
         }
 
-        areaProdutos += '</ol><p><span class="preco">R$ ' + total + '</span></p>';
+        areaProdutos += '</ol><p><span class="preco">Valor Total: R$ ' + total + '</span></p>';
         let div = document.getElementById("carrinho");
         div.innerHTML = areaProdutos;
     }

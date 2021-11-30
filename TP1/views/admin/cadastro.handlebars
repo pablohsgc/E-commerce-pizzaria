@@ -66,9 +66,10 @@
         <div class="form-group col-md-4">
           <label for="inputState">Bairro</label>
           <select id="inputState" class="form-control" name="bairro" required>
-            {{#each bairro}}
-            <option>{{this.nome}}</option>
+            {{#each bairro}}              
+                <option>{{this.nome}}</option>
             {{else}}
+            <div class="alert alert-danger">Não foi possivel renderizar os elementos!</div>
             {{/each}}
           </select>
         </div>
