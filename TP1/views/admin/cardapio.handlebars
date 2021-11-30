@@ -44,7 +44,7 @@
                 </div>
                 {{#if ../../session.user}}
                 <div class="ml-auto">
-                    <input type="number" class="input-preco btn btn-light" id='qtd-{{id}}' min='0' placeholder="0">
+                    <input type="number" name="qntd" class="input-preco btn btn-light" id='qtd-{{id}}' min='0' placeholder="0">
                     <button class="material-icons btn btn-success sm" onclick="adicionaProduto('{{nome}}',{{preco}},'qtd-{{id}}')">add_shopping_cart</button>
                     <button class="material-icons btn btn-danger" onclick="removeProduto('{{nome}}')">remove_shopping_cart</button>
                 </div>
@@ -119,10 +119,11 @@
     }
 
     function removeProduto(nome_produto){
+        console.log(nome_produto)
         let produto = {
-            "nome":nome_produto,
+            "nome":nome_produto
         }
-
+        console.log(produto)
         fetch("http://localhost:3000/removeProduto",{
             method:'POST',
             body:JSON.stringify(produto),
