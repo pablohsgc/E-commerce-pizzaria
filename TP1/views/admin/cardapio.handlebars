@@ -63,7 +63,7 @@
             <h3>Carrinho de Compras:</h3>
             <div id="carrinho"></div>
             <div class="d-flex justify-content-center mt-2">
-                <button class="btn btn-success">Finalizar pedido</button>
+                <button class="btn btn-success" onclick="finaliza_pedido()">Finalizar pedido</button>
             </div>
         </div>
     {{/if}}
@@ -73,6 +73,19 @@
 <script>
     function nome_pizzas(){// tentar adicionar o script separado na pasta public
         return fetch("http://localhost:3000/nomePizza",{
+            method:'POST'
+        })
+        .then(response => response.json())
+        .then((json) =>{
+            return json.Pizzas
+        }).catch((erro) =>{
+            console.log(erro)
+            return null
+        })
+    }
+
+    function finaliza_pedido(){
+        return fetch("http://localhost:3000/finalizaPedido",{
             method:'POST'
         })
         .then(response => response.json())

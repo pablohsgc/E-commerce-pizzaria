@@ -10,6 +10,10 @@ const CadastroUsuarioController = require('../controller/CadastroUsuarioControll
 const usuario = new CadastroUsuarioController()
 const usr_bd = mongoose.model("usuarios")
 
+const FinalizaPedidoController = require('../controller/FinalizaPedidoController')
+const pedido = new FinalizaPedidoController()
+const pedido_bd = mongoose.model("pedidos")
+
 const BairroController = require('../controller/BairroController')
 const bairro = new BairroController();
 
@@ -30,7 +34,7 @@ router.get('/', (req, res) => {
 router.get('/cardapio', async (req, res) => {
 
     try {
-        let categorias_cardapio = await Cardapio.cardapio()        
+        let categorias_cardapio = await Cardapio.cardapio()
         let pizzas_cardapio = [categorias_cardapio[0]];
         categorias_cardapio.shift();
         res.render("admin/cardapio", { pizzas: pizzas_cardapio, categorias: categorias_cardapio/*categorias:categorias_cardapio*/ })
@@ -41,47 +45,42 @@ router.get('/cardapio', async (req, res) => {
 })
 
 //Listagem de bairros no input de bairro da interface cadastro    
-router.get('/cadastro', async (req, res) => {    
-    try{        
-        let lista_bairros =  []
-        lista_bairros = await bairro.listarBairros()      
-        res.render('admin/cadastro', { bairro: lista_bairros })        
+router.get('/cadastro', async (req, res) => {
+    try {
+        let lista_bairros = []
+        lista_bairros = await bairro.listarBairros()
+        res.render('admin/cadastro', { bairro: lista_bairros })
     } catch (erro) {
-        req.flash("error_msg", erro)        
-    }   
+        req.flash("error_msg", erro)
+    }
 })
 //Cadastro do novo usuário
 router.post("/cadastro", (req, res) => {
-    let endereco = {
-        rua: req.body.rua,
-        numero: req.body.numero,
-        complemento: req.body.complemento,
-        bairro: req.body.bairro,
-        cidade: req.body.cidade,
-        estado: req.body.estado,
-        cep: req.body.cep
+    try {
+        let endereco = {
+            rua: req.body.rua,
+            numero: req.body.numero,
+            complemento: req.body.complemento,
+            bairro: req.body.bairro,
+            cidade: req.body.cidade,
+            estado: req.body.estado,
+            cep: req.body.cep
+        }
+        usuario.addUsuario(req.body.nome,
+            req.body.senha1,
+            req.body.senha2,
+            req.body.cpf,
+            req.body.email,
+            req.body.telefone,
+            endereco)
+        req.flash("success_msg", "Usuario cadastrado com sucesso!")
+        res.redirect("/cardapio")
+    } catch(erro){
+        req.flash("error_msg", "Houve um erro ao Cadastrar Usuário!")
+        res.redirect("/cadastro")
     }
-    let novoUsuario = usuario.addUsuario(   req.body.nome,
-                                        req.body.senha1,
-                                        req.body.senha2,
-                                        req.body.cpf,
-                                        req.body.email,
-                                        req.body.telefone,
-                                        endereco )
-
-    if(novoUsuario == null){
-        req.flash("error_msg", "As senhas digitadas devem ser iguais!")
-        res.redirect('/cadastro')
-    } 
-    else {
-        new usr_bd(novoUsuario).save().then(() => {
-            req.flash("success_msg", "Usuario cadastrado com sucesso!")
-            res.redirect("/cardapio")
-        }).catch((erro) => {
-            req.flash("error_msg", "Houve um erro ao Cadastrar Usuário!")
-            res.redirect("/cadastro")
-        })
-    }  
+        
+   
 })
 
 router.get("/login", (req, res) => {
@@ -105,6 +104,25 @@ router.post("/login", async (req, res) => {
 
 router.post("/nomePizza", async (req, res) => {
     res.json(await Cardapio.nomes_pizzas())
+})
+
+router.post("/finalizaPedido", async (req, res) => {
+    if (carrinho.precoTotal != 0) {
+        let endereco = login.usuario["endereco"]
+        let nome = login.usuario["nome"]
+        let dadosEntrega = {
+            nome: nome,
+            endereco: endereco
+        }
+
+        retorno = pedido.finalizaPedido(Date.now(), carrinho.getCarrinho(), carrinho.precoTotal, dadosEntrega)
+        if (retorno == "Sucesso") {
+            req.flash("success_msg", "Pedido realizado com sucesso!")
+        }
+        else {
+            req.flash("error_msg", "Houve um erro ao realizar o pedido!")
+        }
+    }
 })
 
 router.get("/deslogarUsuario", (req, res) => {

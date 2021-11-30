@@ -39,6 +39,19 @@ class CarrinhoController {
         this.carrinho = []
         this.precoTotal = 0
     }
+
+    getCarrinho(){
+        var elementos = [];    
+            this.carrinho.forEach((elemento) =>{
+                var item = {
+                    nome:elemento["nome"],
+                    quantidade: elemento['quantidade'],
+                    preco:elemento["preco"]                   
+                };
+                elementos.push(item)
+            })
+        return elementos
+    }
 }
 
 module.exports = CarrinhoController

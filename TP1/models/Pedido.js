@@ -14,9 +14,19 @@ const Pedido = new Schema({
     },
     listaPedidos: {
         produdo: {
-            type: Schema.Types.ObjectId,
-            ref: "produtos",
-            required: true
+            nome: {
+                type: String,
+                required: true
+                
+            },           
+           quantidade: {
+               type: Number,
+               required: true
+           },
+           preco: {
+               type: Number,
+               required: true
+           }
         }           
     },
     precoTotal: {
