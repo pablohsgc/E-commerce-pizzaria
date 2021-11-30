@@ -6,7 +6,9 @@ require("../models/Produto")
 require("../models/Bairro")
 require("../models/Usuario")
 
-const Usuario = mongoose.model("usuarios")
+const CadastroUsuarioController = require('../controller/CadastroUsuarioController')
+const usuario = new CadastroUsuarioController()
+const usr_bd = mongoose.model("usuarios")
 
 const BairroController = require('../controller/BairroController')
 const bairro = new BairroController();
@@ -48,38 +50,38 @@ router.get('/cadastro', async (req, res) => {
         req.flash("error_msg", erro)        
     }   
 })
-
+//Cadastro do novo usuário
 router.post("/cadastro", (req, res) => {
-
-    const novoUsuario = {
-        nome: req.body.nome,
-        senha: req.body.senha1,
-        cpf: req.body.cpf,
-        email: req.body.email,
-        telefone: req.body.telefone,
-        endereco: {
-            rua: req.body.rua,
-            numero: req.body.numero,
-            complemento: req.body.complemento,
-            bairro: req.body.bairro,
-            cidade: req.body.cidade,
-            estado: req.body.estado,
-            cep: req.body.cep
-        }
+    let endereco = {
+        rua: req.body.rua,
+        numero: req.body.numero,
+        complemento: req.body.complemento,
+        bairro: req.body.bairro,
+        cidade: req.body.cidade,
+        estado: req.body.estado,
+        cep: req.body.cep
     }
-    if (req.body.senha1 != req.body.senha2) {
+    let novoUsuario = usuario.addUsuario(   req.body.nome,
+                                        req.body.senha1,
+                                        req.body.senha2,
+                                        req.body.cpf,
+                                        req.body.email,
+                                        req.body.telefone,
+                                        endereco )
+
+    if(novoUsuario == null){
         req.flash("error_msg", "As senhas digitadas devem ser iguais!")
         res.redirect('/cadastro')
-    }
+    } 
     else {
-        new Usuario(novoUsuario).save().then(() => {
+        new usr_bd(novoUsuario).save().then(() => {
             req.flash("success_msg", "Usuario cadastrado com sucesso!")
             res.redirect("/cardapio")
         }).catch((erro) => {
             req.flash("error_msg", "Houve um erro ao Cadastrar Usuário!")
             res.redirect("/cadastro")
         })
-    }
+    }  
 })
 
 router.get("/login", (req, res) => {
