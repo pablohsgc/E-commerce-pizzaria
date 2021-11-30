@@ -107,22 +107,21 @@ router.post("/nomePizza", async (req, res) => {
 })
 
 router.post("/finalizaPedido", async (req, res) => {
-    if (carrinho.precoTotal != 0) {
-        let endereco = login.usuario["endereco"]
-        let nome = login.usuario["nome"]
-        let dadosEntrega = {
-            nome: nome,
-            endereco: endereco
+    try{
+        if (carrinho.precoTotal != 0) {
+            let endereco = login.usuario["endereco"]
+            let nome = login.usuario["nome"]
+            let dadosEntrega = {
+                nome: nome,
+                endereco: endereco
+            }
+            retorno = pedido.finalizaPedido(Date.now(), carrinho.getCarrinho(), carrinho.precoTotal, dadosEntrega)
+            req.flash("success_msg", "Pedido realizado com sucesso!")            
         }
-
-        retorno = pedido.finalizaPedido(Date.now(), carrinho.getCarrinho(), carrinho.precoTotal, dadosEntrega)
-        if (retorno == "Sucesso") {
-            req.flash("success_msg", "Pedido realizado com sucesso!")
-        }
-        else {
-            req.flash("error_msg", "Houve um erro ao realizar o pedido!")
-        }
+    } catch(erro){
+        req.flash("error_msg", erro)
     }
+        
 })
 
 router.get("/deslogarUsuario", (req, res) => {

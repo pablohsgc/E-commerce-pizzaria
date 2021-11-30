@@ -10,23 +10,18 @@ class FinalizaPedidoController{
     }
 
     async finalizaPedido(data, listaPedidos, precoTotal, dadosEntrega){        
-        
+                      
         const pedido = {
             data: data,
             listaPedidos: listaPedidos,
             precoTotal: precoTotal,
             dadosEntrega: dadosEntrega
-        }   
-        console.log("PEDIDO ", pedido)
-        new Pedido(pedido).save().then((pedidos) => {
-            console.log("Certo")
-            return "Sucesso"
-        }).catch((erro) => {
-            console.log(erro)
-            return erro
+        }           
+        new Pedido(pedido).save().then((pedidos) => {            
+        }).catch((erro) => {            
+            throw "Erro: Problema ao finalizar pedido!"
         })        
     }
-
 }
 
 module.exports = FinalizaPedidoController

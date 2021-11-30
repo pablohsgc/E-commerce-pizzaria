@@ -13,21 +13,8 @@ const Pedido = new Schema({
         default: Date.now()
     },
     listaPedidos: {
-        produdo: {
-            nome: {
-                type: String,
-                required: true
-                
-            },           
-           quantidade: {
-               type: Number,
-               required: true
-           },
-           preco: {
-               type: Number,
-               required: true
-           }
-        }           
+        type: Object,            
+        required: true                 
     },
     precoTotal: {
         type: Number,

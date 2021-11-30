@@ -40,20 +40,11 @@ class CarrinhoController {
         this.precoTotal = 0
     }
 
-    getCarrinho(){
-        var elementos = [];    
-            this.carrinho.forEach((elemento) =>{
-                var item = {
-                    nome:elemento["nome"],
-                    quantidade: elemento['quantidade'],
-                    preco:elemento["preco"]                   
-                };
-                elementos.push(item)
-            })
-        return elementos
+    getCarrinho(){        
+        return this.carrinho
     }
 
-    adicionaPizzaDoisSabores(nome1, nome1, preco1, preco2, quantidade){
+    adicionaPizzaDoisSabores(nome1, nome2, preco1, preco2, quantidade){
         let nome = nome1 + "/" + nome2
         let preco = ((preco1 + preco2) / 2)
         this.addProdutoCarrinho(nome, preco, quantidade)
