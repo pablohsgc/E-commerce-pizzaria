@@ -52,6 +52,12 @@ class CarrinhoController {
             })
         return elementos
     }
+
+    adicionaPizzaDoisSabores(nome1, nome1, preco1, preco2, quantidade){
+        let nome = nome1 + "/" + nome2
+        let preco = ((preco1 + preco2) / 2)
+        this.addProdutoCarrinho(nome, preco, quantidade)
+    }
 }
 
 module.exports = CarrinhoController
