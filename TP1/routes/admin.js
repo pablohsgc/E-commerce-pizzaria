@@ -82,10 +82,10 @@ router.post("/cadastro", (req, res) => {
 })
 
 router.get("/login", (req, res) => {
-    if (login.usuario != null) {
+    /*if (login.usuario != null) {
         req.flash("success_msg", "Usuario já está logado!")
         res.redirect("/cardapio")
-    }
+    }*/
     res.render("admin/login")
 })
 
