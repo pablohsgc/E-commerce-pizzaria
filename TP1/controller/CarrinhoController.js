@@ -14,20 +14,15 @@ class CarrinhoController {
             quantidade: quantidade,
             preco: preco
         }       
-        let item_repetido = false
-        let pos //Posição do item que já está no carrinho
-        for (let x = 0; x < this.carrinho.length; x++) { //Para cada item no carrinho                                           
-            if (nome == this.carrinho[x].nome) { //Verifica se ele já está no carrinho 
-                item_repetido = true
-                pos = x                
-            }      
-        }        
+
+        let pos = this.contemProduto(nome)
+
         if (quantidade != 0) {             
-            if(item_repetido == false){ //Se item não está no carrinho, adiciona ele               
+            if(pos == -1){ //Se item não está no carrinho, adiciona ele               
                 this.carrinho.push(item)
                 this.precoTotal += preco * quantidade 
-            }         
-            else{ // Se já tem o item no carrinho, apenas atualiza a quantidade
+
+            } else{ // Se já tem o item no carrinho, apenas atualiza a quantidade
                 this.carrinho[pos].quantidade = parseFloat(this.carrinho[pos].quantidade) + parseFloat(quantidade)
                 this.precoTotal += preco * quantidade
             }
@@ -62,6 +57,32 @@ class CarrinhoController {
         let nome = nome1 + "/" + nome2
         let preco = ((preco1 + preco2) / 2)
         this.addProdutoCarrinho(nome, preco, quantidade)
+    }
+
+    contemProduto(nome){
+        let nomes = nome.split("/")
+        let sabor_combinado = false
+        let nomes_aux = []
+
+        if(nomes.length > 1){
+            sabor_combinado = true    
+        }
+
+        for (let x = 0; x < this.carrinho.length; x++) { //Para cada item no carrinho                                           
+            if (nome == this.carrinho[x].nome) { //Verifica se ele já está no carrinho 
+                return x;                
+            }   
+            
+            nomes_aux = this.carrinho[x].nome.split("/")
+
+            if(sabor_combinado && nomes_aux.length > 1){
+                if(nomes_aux[0]+"/"+nomes_aux[1] === nomes[0]+"/"+nomes[1] ||
+                   nomes_aux[0]+"/"+nomes_aux[1] === nomes[1]+"/"+nomes[0] )
+                   return x;
+            }
+        }
+
+        return -1;//Posicao para a não existencia de produto
     }
 }
 

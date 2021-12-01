@@ -147,10 +147,10 @@
         let areaProdutos = "<ol>";
 
         for(produto of produtos){
-            areaProdutos += '<li>' + produto.nome + ', preço: R$' + (produto.preco).toFixed(2) + ', quantidade: ' + produto.quantidade + '.</li>';
+            areaProdutos += '<li class="text">' + produto.nome + ', preço: R$' + (produto.preco).toFixed(2) + ', quantidade: ' + produto.quantidade + '.</li>';
         }
 
-        areaProdutos += '</ol><p><span class="preco">Valor Total: R$ ' + (total).toFixed(2) + '</span></p>';
+        areaProdutos += '</ol><p><span class="text">Valor Total: R$ ' + (total).toFixed(2) + '</span></p>';
         let div = document.getElementById("carrinho");
         div.innerHTML = areaProdutos;
     }
