@@ -8,11 +8,9 @@ require("../models/Usuario")
 
 const CadastroUsuarioController = require('../controller/CadastroUsuarioController')
 const usuario = new CadastroUsuarioController()
-const usr_bd = mongoose.model("usuarios")
 
 const FinalizaPedidoController = require('../controller/FinalizaPedidoController')
 const pedido = new FinalizaPedidoController()
-const pedido_bd = mongoose.model("pedidos")
 
 const BairroController = require('../controller/BairroController')
 const bairro = new BairroController();
@@ -103,7 +101,7 @@ router.post("/login", async (req, res) => {
 })
 
 router.post("/nomePizza", async (req, res) => {
-    res.json(await Cardapio.nomes_pizzas())
+    res.json(await Cardapio.pizzas())
 })
 
 router.post("/finalizaPedido", async (req, res) => {
@@ -116,7 +114,9 @@ router.post("/finalizaPedido", async (req, res) => {
                 endereco: endereco
             }
             retorno = pedido.finalizaPedido(Date.now(), carrinho.getCarrinho(), carrinho.precoTotal, dadosEntrega)
-            req.flash("success_msg", "Pedido realizado com sucesso!")            
+            carrinho.esvaziaCarrinho()
+            req.flash("success_msg", "Pedido realizado com sucesso!")      
+            res.redirect("/cardapio");
         }
     } catch(erro){
         req.flash("error_msg", erro)
@@ -139,6 +139,15 @@ router.post("/adicionaProduto", (req, res) => {
 router.post("/removeProduto", (req, res) => {
     carrinho.removeProdutoCarrinho(req.body.nome)
     res.json({ "Produtos": carrinho.carrinho, "Total": carrinho.precoTotal })
+})
+
+router.post("/adicionaPizzaDoisSabores", (req,res) => {
+    carrinho.adicionaPizzaDoisSabores(req.body.nome_pizza_1,
+                                     req.body.nome_pizza_2,
+                                     req.body.preco_pizza_1,
+                                     req.body.preco_pizza_2,
+                                     req.body.quantidade)
+    res.json({ "Produtos": carrinho.carrinho, "Total": carrinho.precoTotal})
 })
 
 module.exports = router

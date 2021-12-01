@@ -9,8 +9,7 @@ class FinalizaPedidoController{
     constructor(){        
     }
 
-    async finalizaPedido(data, listaPedidos, precoTotal, dadosEntrega){        
-                      
+    async finalizaPedido(data, listaPedidos, precoTotal, dadosEntrega){                   
         const pedido = {
             data: data,
             listaPedidos: listaPedidos,

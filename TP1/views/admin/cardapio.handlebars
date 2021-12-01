@@ -9,12 +9,12 @@
             <span class="text">{{descricao}}</span>
             <div class="d-flex">
                 <div class="text area-preco">
-                    <span>R$<span class="preco">{{preco}}</span></span><br>
+                    <span>R$<span class="preco-{{id}}">{{preco}}</span></span><br>
                 </div>
                 {{#if ../../session.user}}
                 <div class="ml-auto">
                     <input type="number" class="input-preco btn btn-light" id='qtd-{{id}}' min='0' placeholder="0">
-                    <button class="material-icons btn btn-meia-pizza btn-warning" onclick="selecionaMetadePizza('{{id}}','{{nome}}')"><img class="img-meia-pizza" src="/assets/meia-pizza.png" alt="meia pizza"></button>
+                    <button class="material-icons btn btn-meia-pizza btn-warning" onclick="selecionaMetadePizza('{{id}}','{{nome}}',{{preco}})"><img class="img-meia-pizza" src="/assets/meia-pizza.png" alt="meia pizza"></button>
                     <button class="material-icons btn btn-success sm" onclick="adicionaProduto('{{nome}}',{{preco}},'qtd-{{id}}')">add_shopping_cart</button>
                     <button class="material-icons btn btn-danger" onclick="removeProduto('{{nome}}')">remove_shopping_cart</button>
                 </div>
@@ -58,12 +58,15 @@
 {{else}}
     <div class="alert alert-danger">Não foi possivel renderizar as categorias!</div>
 {{/each}}
+    <div id="areaPizzasDeDoisSabores"></div>
     {{#if session.user}}
         <div class="card menu-opcao p-3">
             <h3>Carrinho de Compras:</h3>
             <div id="carrinho"></div>
             <div class="d-flex justify-content-center mt-2">
-                <button class="btn btn-success" onclick="finaliza_pedido()">Finalizar pedido</button>
+                <form method="post" action="/finalizaPedido">
+                <button class="btn btn-success">Finalizar pedido</button>
+                </form>
             </div>
         </div>
     {{/if}}
@@ -79,32 +82,22 @@
         .then((json) =>{
             return json.Pizzas
         }).catch((erro) =>{
-            console.log(erro)
             return null
         })
     }
 
-    function finaliza_pedido(){
-        return fetch("http://localhost:3000/finalizaPedido",{
-            method:'POST'
-        })
-        .then(response => response.json())
-        .then((json) =>{
-            return json.Pizzas
-        }).catch((erro) =>{
-            console.log(erro)
-            return null
-        })
-    }
-
-    function selecionaMetadePizza(id,nome_pizza){
+    function selecionaMetadePizza(id,nome_pizza,preco_pizza){
         let div = document.getElementById(id);
+
         nome_pizzas().then((pizzas) =>{
             let areaSelecao = "<div class='sub-area-pizzas d-flex justify-content-between'>"
+        
             for(pizza of pizzas){
-                if(!(pizza === nome_pizza))
-                areaSelecao += "<button class='btn btn-warning btn-metade-pizza'>" + pizza + "</button>";
+                if(!(pizza.nome === nome_pizza))
+                //adicionaPizzaDoisSabores(nome_pizza1,nome_pizza2,preco_pizza1,id_quantidade,id_preco_pizza2)
+                areaSelecao += `<button class="btn btn-warning btn-metade-pizza" onclick="adicionaPizzaDoisSabores('${nome_pizza}','${pizza.nome}',${preco_pizza},'qtd-${id}',${pizza.preco});escondeSubArea('${id}')">${pizza.nome}</button>`;
             }
+            
             areaSelecao += '</div>';
             div.innerHTML = areaSelecao;
         })
@@ -154,11 +147,51 @@
         let areaProdutos = "<ol>";
 
         for(produto of produtos){
-            areaProdutos += '<li>' + produto.nome + ', preço: R$' + produto.preco + ', quantidade: ' + produto.quantidade + '</li>';
+            areaProdutos += '<li>' + produto.nome + ', preço: R$' + (produto.preco).toFixed(2) + ', quantidade: ' + produto.quantidade + '.</li>';
         }
 
-        areaProdutos += '</ol><p><span class="preco">Valor Total: R$ ' + total + '</span></p>';
+        areaProdutos += '</ol><p><span class="preco">Valor Total: R$ ' + (total).toFixed(2) + '</span></p>';
         let div = document.getElementById("carrinho");
         div.innerHTML = areaProdutos;
+    }
+
+    function adicionaPizzaDoisSabores(nome_pizza1,nome_pizza2,preco_pizza1,id_quantidade,preco_pizza2){
+        let quantidade = document.getElementById(id_quantidade).value;
+
+        let pizza = {
+            "nome_pizza_1":nome_pizza1,
+            "nome_pizza_2":nome_pizza2,
+            "preco_pizza_1":preco_pizza1,
+            "preco_pizza_2":preco_pizza2,
+            "quantidade":quantidade
+        }
+
+        fetch("http://localhost:3000/adicionaPizzaDoisSabores",{
+            method:'POST',
+            body:JSON.stringify(pizza),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(response => response.json())
+        .then((json) =>{
+            pizza = json.Produtos[json.Produtos.length-1]; //Para pegar o ultimo elemento das pizzas de produto
+            adicionaSaborCombinado(pizza.nome,pizza.preco)
+            reproduzPedido(json.Produtos,json.Total)
+        }).catch((erro) =>{
+            console.log(erro)
+        })
+    }
+
+    function escondeSubArea(id){
+        document.getElementById(id).innerHTML = "";
+    }
+
+    function adicionaSaborCombinado(nome,preco){
+        let div = document.getElementById("areaPizzasDeDoisSabores")
+        let area_titulo = `<h4>${nome}</h4>`;
+        let area_descricao = `<span class='text'>Pizza com os ingredientes das pizzas combinadas em cada metade. OBS: esta area serve apenas para que o usuário remova o valor escolhido!</span>`;
+        let area_preco = `<div class="text area-preco"><span>R$<span class="preco">${(preco).toFixed(2)}</span></span><br></div>`;
+        let area_botoes = `<div class="ml-auto"><button class="material-icons btn btn-danger" onclick="removeProduto('${nome}')">remove_shopping_cart</button></div>`;
+        let novo_sabor = `<div class='card mb-1 menu-opcao d-flex p-3'>${area_titulo}${area_descricao}<div class="d-flex">${area_preco}${area_botoes}</div></div>`;
+        div.innerHTML = div.innerHTML + novo_sabor; // Adição do novo sabor a área de sabores combinados
     }
 </script>

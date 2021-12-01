@@ -12,7 +12,6 @@ class CadastroUsuarioController{
     }
 
     addUsuario(nome, senha1, senha2, cpf, email, telefone, endereco){        
-        let mensagem
         const novoUsuario = {
             nome: nome,
             senha: senha1,
