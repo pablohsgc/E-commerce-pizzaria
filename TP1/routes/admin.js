@@ -114,13 +114,14 @@ router.post("/finalizaPedido", async (req, res) => {
                 endereco: endereco
             }
             retorno = pedido.finalizaPedido(Date.now(), carrinho.getCarrinho(), carrinho.precoTotal, dadosEntrega)
-            req.flash("success_msg", "Pedido realizado com sucesso!")  
-            res.redirect("/cardapio")       
+            req.flash("success_msg", "Pedido realizado com sucesso!")         
             carrinho.esvaziaCarrinho()        
         }
     } catch(erro){
         req.flash("error_msg", erro)
     }        
+
+    res.redirect("/cardapio")
 })
 
 router.get("/deslogarUsuario", (req, res) => {
