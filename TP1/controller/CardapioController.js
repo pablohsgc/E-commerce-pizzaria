@@ -7,7 +7,7 @@ class CardapioController{
 
     }
 
-    async pizzas(nome_categoria){
+    async consulta_categoria(nome_categoria){
         return await Produto.find({categoria: nome_categoria}).then((produtos) => { 
             var elementos = [];
     
@@ -23,14 +23,14 @@ class CardapioController{
             
             return elementos;
         }).catch((erro)=>{
-            return null
+            throw erro
         })
     }
 
     async cardapio(){
-        var pizzas_cardapio = await this.pizzas("Pizzas")
-        var bebidas_cardapio = await this.pizzas("Bebidas")
-        var promocoes_cardapio = await this.pizzas("Promoções")
+        var pizzas_cardapio = await this.consulta_categoria("Pizzas")
+        var bebidas_cardapio = await this.consulta_categoria("Bebidas")
+        var promocoes_cardapio = await this.consulta_categoria("Promoções")
 
         var categorias = [{
             titulo_categoria:"Pizzas",
@@ -46,10 +46,14 @@ class CardapioController{
         return categorias;
     }
 
-    async nomes_pizzas(){
-        let pizzas = await this.pizzas("Pizzas");
-        let nomes = pizzas.map(pizza => pizza.nome)
-        return {Pizzas:nomes}
+    async pizzas(){
+        let consulta = await this.consulta_categoria("Pizzas");
+        
+        let pizzas = consulta.map(function(consulta){ 
+            return  {nome:consulta.nome,preco:consulta.preco} 
+        })
+
+        return {Pizzas:pizzas}
     }
 }
 
