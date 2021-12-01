@@ -8,7 +8,7 @@ Repositório de trabalho e versionamento para TP1 de Laboratório de Engenharia 
 ## Como utilizar
 
 - Clone o repositório com **git clone https://github.com/pablohsgc/TP1-EngSoft.git**
-- Entre na pasta TP1 e execute **node app.js**
+- Entre na pasta **TP1** e execute **node app.js**
 - O servidor será executado na porta 3000.
 - Acesse **localhost:3000** e veja a aplicação rodando.
 - Verifique o como é o escopo da interface aqui **https://pablohsgc.github.io/TP1-EngSoft/Interface-TP1/**
