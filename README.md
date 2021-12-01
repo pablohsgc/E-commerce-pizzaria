@@ -1,5 +1,5 @@
 # TP1-EngSoft
-    Repositório de trabalho e versionamento para TP1 de Laboratório de Engenharia de Software.
+Repositório de trabalho e versionamento para TP1 de Laboratório de Engenharia de Software.
 ## Integrantes
  - GUILHERME NOGUEIRA COELHO, 20183011834
  - ELAINE RODRIGUES DOS SANTOS, 201322040494
