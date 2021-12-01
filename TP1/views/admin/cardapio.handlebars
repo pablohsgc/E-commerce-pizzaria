@@ -191,7 +191,18 @@
         let area_descricao = `<span class='text'>Pizza com os ingredientes das pizzas combinadas em cada metade. OBS: esta area serve apenas para que o usuário remova o valor escolhido!</span>`;
         let area_preco = `<div class="text area-preco"><span>R$<span class="preco">${(preco).toFixed(2)}</span></span><br></div>`;
         let area_botoes = `<div class="ml-auto"><button class="material-icons btn btn-danger" onclick="removeProduto('${nome}')">remove_shopping_cart</button></div>`;
-        let novo_sabor = `<div class='card mb-1 menu-opcao d-flex p-3'>${area_titulo}${area_descricao}<div class="d-flex">${area_preco}${area_botoes}</div></div>`;
+        let novo_sabor = `<div class='card mb-1 menu-opcao d-flex p-3 pizza-meio-a-meio'>${area_titulo}${area_descricao}<div class="d-flex">${area_preco}${area_botoes}</div></div>`;
+        
+        let pizzas = document.querySelectorAll(".pizza-meio-a-meio");
+
+        let nomes = nome.split("/")
+
+        for(i=0; i < pizzas.length; i++){
+            if(pizzas[i].children[0].innerHTML === nomes[0]+"/"+nomes[1] || 
+               pizzas[i].children[0].innerHTML === nomes[1]+"/"+nomes[0]   )
+                return; 
+        }
+        
         div.innerHTML = div.innerHTML + novo_sabor; // Adição do novo sabor a área de sabores combinados
     }
 </script>

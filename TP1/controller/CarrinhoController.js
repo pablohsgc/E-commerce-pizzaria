@@ -9,14 +9,28 @@ class CarrinhoController {
     }
 
     addProdutoCarrinho(nome, preco, quantidade) {
-        var item = {
+        let item = {
             nome: nome,
             quantidade: quantidade,
             preco: preco
-        }
-        if (quantidade != 0) {
-            this.carrinho.push(item)
-            this.precoTotal += preco * quantidade            
+        }       
+        let item_repetido = false
+        let pos //Posição do item que já está no carrinho
+        for (let x = 0; x < this.carrinho.length; x++) { //Para cada item no carrinho                                           
+            if (nome == this.carrinho[x].nome) { //Verifica se ele já está no carrinho 
+                item_repetido = true
+                pos = x                
+            }      
+        }        
+        if (quantidade != 0) {             
+            if(item_repetido == false){ //Se item não está no carrinho, adiciona ele               
+                this.carrinho.push(item)
+                this.precoTotal += preco * quantidade 
+            }         
+            else{ // Se já tem o item no carrinho, apenas atualiza a quantidade
+                this.carrinho[pos].quantidade = parseFloat(this.carrinho[pos].quantidade) + parseFloat(quantidade)
+                this.precoTotal += preco * quantidade
+            }
         }
     }
 
